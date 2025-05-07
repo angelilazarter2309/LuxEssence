@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LuxEssence - Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function showResult() {
+      const name = document.getElementById("user-name").value.trim();
+      const age = document.getElementById("user-age").value.trim();
+      const questions = document.querySelectorAll(".quiz-question");
+      let answered = true;
+
+      // Check if all questions are answered
+      questions.forEach(q => {
+        const inputs = q.querySelectorAll("input[type='radio']");
+        const groupName = inputs[0]?.name;
+        if (!document.querySelector(`input[name="${groupName}"]:checked`)) {
+          answered = false;
+        }
+      });
+
+      if (!name || !age || !answered) {
+        alert("Please enter your name, age, and answer all the questions.");
+        return;
+      }
+
+      // Collect answers
+      const q1 = document.querySelector('input[name="q1"]:checked').value;
+      const q2 = document.querySelector('input[name="q2"]:checked').value;
+      const q4 = document.querySelector('input[name="q4"]:checked').value;
+      const q7 = document.querySelector('input[name="q7"]:checked').value;
+
+      let skinType = "";
+      let description = "";
+
+      // Decision logic
+      if ((q1 === "oily" || q4 === "oily-again") && q2 !== "sensitivity") {
+        skinType = "Oily";
+        description = "You may have oily skin. This type is prone to shine, breakouts, and larger pores. Use lightweight, non-comedogenic products and focus on oil control.";
+      } else if ((q1 === "dry" || q4 === "tight-dry") && q2 !== "sensitivity") {
+        skinType = "Dry";
+        description = "You likely have dry skin. Your skin may feel tight, rough, or flaky. Look for deeply hydrating and nourishing products to restore moisture.";
+      } else if (q1 === "combination" && q2 !== "sensitivity") {
+        skinType = "Combination";
+        description = "You have combination skin. This means your T-zone might be oily while other areas are dry. Balance is key—use products that hydrate and control oil.";
+      } else if (q7 === "very-sensitive" || q2 === "sensitivity") {
+        skinType = "Sensitive";
+        description = "You have sensitive skin. Your skin may easily react to products or the environment. Stick with gentle, fragrance-free skincare that soothes irritation.";
+      } else {
+        skinType = "Normal";
+        description = "You have normal skin. Your skin is generally balanced, not too oily or dry. Maintain it with simple, gentle care to keep your skin happy and healthy!";
+      }
+
+      // Show result
+      document.getElementById("result").innerHTML = `
+        <h3>Hi, <strong>${name}</strong>! You're ${age} years old.</h3>
+        <p><strong>Your Skin Type: ${skinType}</strong></p>
+        <p>${description}</p>
+        <p>Click below to view skincare products tailored to your skin type!</p>
+      `;
+      document.querySelector(".product-suggestions").style.display = "block";
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>LuxEssence Product Quiz</h1>
+    <p>Find the best skincare tailored for you</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="recommended products.html">Recommended Products</a>
+  </nav>
+
+  <div class="content">
+    <h2 class="section-title">Start Your Skincare Quiz</h2>
+
+    <label for="user-name">Name:</label>
+    <input type="text" id="user-name" placeholder="Enter your name"><br><br>
+
+    <label for="user-age">Age:</label>
+    <input type="number" id="user-age" placeholder="Enter your age"><br><br>
+
+    <!-- BEGIN QUIZ QUESTIONS -->
+    <div class="quiz-question">
+      <p>1. What is your skin type?</p>
+      <input type="radio" name="q1" value="oily">Oily<br>
+      <input type="radio" name="q1" value="dry">Dry<br>
+      <input type="radio" name="q1" value="combination">Combination<br>
+      <input type="radio" name="q1" value="normal">Normal<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>2. What is your main skin concern?</p>
+      <input type="radio" name="q2" value="acne">Acne<br>
+      <input type="radio" name="q2" value="dryness">Dryness<br>
+      <input type="radio" name="q2" value="dark-spots">Dark spots<br>
+      <input type="radio" name="q2" value="sensitivity">Redness or sensitivity<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>3. How often do you get breakouts?</p>
+      <input type="radio" name="q3" value="often">Very often<br>
+      <input type="radio" name="q3" value="sometimes">Occasionally<br>
+      <input type="radio" name="q3" value="rarely">Rarely<br>
+      <input type="radio" name="q3" value="never">Never<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>4. How does your skin feel after washing your face?</p>
+      <input type="radio" name="q4" value="tight-dry">Tight and dry<br>
+      <input type="radio" name="q4" value="clean">Smooth and clean<br>
+      <input type="radio" name="q4" value="oily-again">Oily again in minutes<br>
+      <input type="radio" name="q4" value="balanced">Balanced and comfortable<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>5. What texture do you prefer in skincare products?</p>
+      <input type="radio" name="q5" value="gel">Gel-based<br>
+      <input type="radio" name="q5" value="creamy">Creamy or thick<br>
+      <input type="radio" name="q5" value="lightweight">Lightweight or water-like<br>
+      <input type="radio" name="q5" value="unsure">I'm not sure<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>6. Do you use sunscreen daily?</p>
+      <input type="radio" name="q6" value="always">Always<br>
+      <input type="radio" name="q6" value="sometimes">Sometimes<br>
+      <input type="radio" name="q6" value="rarely">Rarely<br>
+      <input type="radio" name="q6" value="never">Never<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>7. How sensitive is your skin to new products?</p>
+      <input type="radio" name="q7" value="very-sensitive">Very sensitive<br>
+      <input type="radio" name="q7" value="somewhat-sensitive">Somewhat sensitive<br>
+      <input type="radio" name="q7" value="not-sensitive">Not sensitive at all<br>
+      <input type="radio" name="q7" value="unsure">I’m not sure<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>8. What is your current skincare routine?</p>
+      <input type="radio" name="q8" value="basic">Cleanser and moisturizer<br>
+      <input type="radio" name="q8" value="medium">Cleanser, toner, moisturizer<br>
+      <input type="radio" name="q8" value="full">Full routine (serums, sunscreen, etc.)<br>
+      <input type="radio" name="q8" value="none">I don't have a routine<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>9. What is your top skincare goal?</p>
+      <input type="radio" name="q9" value="acne">Clear acne<br>
+      <input type="radio" name="q9" value="hydration">Hydrate and plump skin<br>
+      <input type="radio" name="q9" value="brightness">Achieve bright and even tone<br>
+      <input type="radio" name="q9" value="anti-aging">Prevent signs of aging<br>
+    </div>
+
+    <div class="quiz-question">
+      <p>10. How much time are you willing to spend on your skincare routine?</p>
+      <input type="radio" name="q10" value="5-minutes">Less than 5 minutes<br>
+      <input type="radio" name="q10" value="10-minutes">Around 10 minutes<br>
+      <input type="radio" name="q10" value="15-minutes">15 minutes or more<br>
+      <input type="radio" name="q10" value="no-preference">I don't mind<br>
+    </div>
+
+    <br>
+    <button onclick="showResult()">Submit Results</button>
+    <br><br>
+
+    <div class="result" id="result"></div>
+
+    <div class="product-suggestions" style="display:none;">
+      <button class="quiz-btn" onclick="window.location.href='recommended products.html'">
+        See My Product Recommendations
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 LuxEssence
+  </footer>
+</body>
+</html>
+
